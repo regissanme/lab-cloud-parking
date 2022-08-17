@@ -1,5 +1,6 @@
 package com.rsanme.parking.controller.mapper;
 
+import com.rsanme.parking.controller.dto.ParkingCreateDTO;
 import com.rsanme.parking.controller.dto.ParkingDTO;
 import com.rsanme.parking.model.Parking;
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,10 @@ public class ParkingMapper {
 
     public Parking toModel(ParkingDTO parkingDTO){
         return MODEL_MAPPER.map(parkingDTO, Parking.class);
+    }
+
+    public Parking toModel(ParkingCreateDTO parkingCreateDTO){
+        return MODEL_MAPPER.map(parkingCreateDTO, Parking.class);
     }
 
     public ParkingDTO toDto(Parking parking){
