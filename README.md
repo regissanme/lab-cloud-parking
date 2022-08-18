@@ -88,21 +88,22 @@ Foram apresentados e abordados os seguintes tópicos:
 
 
 
-<h2>🔗 Links Úteis</h2>
-- [Spring Boot Initialzr](https://start.spring.io/)
-- [Spring guides](https://spring.io/guides)
-- [Spring projects](https://spring.io/projects)
-- [Documentação do Maven](https://maven.apache.org/)
-- [OpenJDK para download](https://openjdk.java.net/)
-- [OpenJDK 11](https://jdk.java.net/java-se-ri/11)
-- [Documentação do git](https://git-scm.com/)
-- [Documentação do GitHub](https://docs.github.com/pt)
-- [Documentação PostgreSQL](https://www.postgresql.org/docs/)
-- [Download PostgreSQL](https://www.postgresql.org/download/)
-- [Documentação do Springfox](https://springfox.github.io/springfox/docs/current/)
-- [Documentação do REST-assured](https://github.com/rest-assured/rest-assured/wiki/GettingStarted)
-- [Capítulo REST da dissertação de Roy Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
-- [Atalhos do IntelliJ IDEA](https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf)
+<h2>🔗 Links Úteis</h2>  
+
+- [Spring Boot Initialzr](https://start.spring.io/)  
+- [Spring guides](https://spring.io/guides)  
+- [Spring projects](https://spring.io/projects)  
+- [Documentação do Maven](https://maven.apache.org/)  
+- [OpenJDK para download](https://openjdk.java.net/)  
+- [OpenJDK 11](https://jdk.java.net/java-se-ri/11)  
+- [Documentação do git](https://git-scm.com/)   
+- [Documentação do GitHub](https://docs.github.com/pt)   
+- [Documentação PostgreSQL](https://www.postgresql.org/docs/)   
+- [Download PostgreSQL](https://www.postgresql.org/download/)   
+- [Documentação do Springfox](https://springfox.github.io/springfox/docs/current/)   
+- [Documentação do REST-assured](https://github.com/rest-assured/rest-assured/wiki/GettingStarted)   
+- [Capítulo REST da dissertação de Roy Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)   
+- [Atalhos do IntelliJ IDEA](https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf)   
 
 
 
