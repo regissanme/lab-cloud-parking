@@ -2,11 +2,14 @@ package com.rsanme.parking.service;
 
 import com.rsanme.parking.exception.ParkingNotFoundException;
 import com.rsanme.parking.model.Parking;
+import com.rsanme.parking.repository.ParkingRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Projeto: lab-cloud-parking
@@ -17,62 +20,60 @@ import java.util.stream.Collectors;
 @Service
 public class ParkingService {
 
-    private static final Map<String, Parking> parkingMap = new HashMap<>();
+    private final ParkingRepository parkingRepository;
 
-    static {
-        var id = getUUID();
-        var id1 = getUUID();
 
-        Parking parking = new Parking(id, "GOO-4110","GO","CELTA", "PRETO");
-        Parking parking1 = new Parking(id1, "GOO-4114","SP","CLASSIC", "PRATA");
-
-        parkingMap.put(id, parking);
-        parkingMap.put(id1, parking1);
+    public ParkingService(ParkingRepository parkingRepository) {
+        this.parkingRepository = parkingRepository;
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Parking> findAll() {
-        return new ArrayList<>(parkingMap.values());
+        return parkingRepository.findAll();
     }
 
-    private static String getUUID() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
-
+    @Transactional(readOnly = true)
     public Parking findById(String id) {
-        Parking parking = parkingMap.get(id);
-        if(parking == null){
-            throw new ParkingNotFoundException(id);
-        }
-        return parking;
+        return parkingRepository.findById(id)
+                .orElseThrow(() -> new ParkingNotFoundException(id));
     }
 
+    @Transactional
     public Parking create(Parking parking) {
         String id = getUUID();
         parking.setId(id);
         parking.setEntryDate(LocalDateTime.now());
-        parkingMap.put(id, parking);
 
-        return parking;
+        return parkingRepository.save(parking);
     }
 
-    public Parking update(String id, Parking parking){
+    @Transactional
+    public Parking update(String id, Parking parking) {
         Parking parkingSalvo = findById(id);
-        parking.setEntryDate(parkingSalvo.getEntryDate());
-        parking.setExitDate(parkingSalvo.getExitDate());
+        parkingSalvo.setColor(parking.getColor());
+        parkingSalvo.setState(parking.getState());
+        parkingSalvo.setModel(parking.getModel());
+        parkingSalvo.setLicence(parking.getLicence());
 
-        parkingMap.replace(id, parking);
-        return parking;
+        return parkingRepository.save(parkingSalvo);
     }
 
+    @Transactional
     public void delete(String id) {
-        Parking parking = findById(id);
-        parkingMap.remove(id);
+        findById(id);
+        parkingRepository.deleteById(id);
     }
 
-    public Parking finalizeParking(String id) {
-        Parking toFinalize = findById(id);
-        toFinalize.setExitDate(LocalDateTime.now());
+    @Transactional
+    public Parking checkOut(String id) {
+        Parking toCheckOut = findById(id);
+        toCheckOut.setExitDate(LocalDateTime.now());
+        toCheckOut.setBill(ParkingCheckout.getBill(toCheckOut));
 
-        return update(id, toFinalize);
+        return parkingRepository.save(toCheckOut);
+    }
+
+    private static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

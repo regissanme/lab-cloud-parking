@@ -74,10 +74,10 @@ public class ParkingController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/finalize/{id}")
-    public ResponseEntity<ParkingDTO> finalizeParking(@PathVariable String id){
+    @GetMapping("/checkout/{id}")
+    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id){
 
-        var parkingFinalized = parkingService.finalizeParking(id);
+        var parkingFinalized = parkingService.checkOut(id);
         var result = parkingMapper.toDto(parkingFinalized);
 
         return ResponseEntity.ok(result);
