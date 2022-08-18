@@ -1,5 +1,6 @@
 package com.rsanme.parking.service;
 
+import com.rsanme.parking.exception.ParkingCheckoutException;
 import com.rsanme.parking.exception.ParkingNotFoundException;
 import com.rsanme.parking.model.Parking;
 import com.rsanme.parking.repository.ParkingRepository;
@@ -67,7 +68,7 @@ public class ParkingService {
     public Parking checkOut(String id) {
         Parking toCheckOut = findById(id);
         if (toCheckOut.getExitDate() != null) {
-            throw new RuntimeException("Parking already checkout with Id: " + id);
+            throw new ParkingCheckoutException("Parking already checkout with Id: " + id);
         }
         toCheckOut.setExitDate(LocalDateTime.now());
         toCheckOut.setBill(ParkingCheckout.getBill(toCheckOut));
