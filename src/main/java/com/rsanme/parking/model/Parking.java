@@ -1,5 +1,7 @@
 package com.rsanme.parking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 /**
@@ -8,8 +10,10 @@ import java.time.LocalDateTime;
  * Data: 17/08/2022
  * Hora: 12:56
  */
+@Entity
 public class Parking {
 
+    @Id
     private String id;
     private String licence;
     private String state;
@@ -25,6 +29,18 @@ public class Parking {
         this.state = state;
         this.model = model;
         this.color = color;
+    }
+
+    public Parking(String id, String licence, String state, String model, String color,
+                   LocalDateTime entryDate, LocalDateTime exitDate, Double bill) {
+        this.id = id;
+        this.licence = licence;
+        this.state = state;
+        this.model = model;
+        this.color = color;
+        this.entryDate = entryDate;
+        this.exitDate = exitDate;
+        this.bill = bill;
     }
 
     public Parking() {
