@@ -1,5 +1,6 @@
 package com.rsanme.parking.service;
 
+import com.rsanme.parking.exception.ParkingNotFoundException;
 import com.rsanme.parking.model.Parking;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,11 @@ public class ParkingService {
     }
 
     public Parking findById(String id) {
-        return parkingMap.get(id);
+        Parking parking = parkingMap.get(id);
+        if(parking == null){
+            throw new ParkingNotFoundException(id);
+        }
+        return parking;
     }
 
     public Parking create(Parking parking) {
@@ -48,5 +53,26 @@ public class ParkingService {
         parkingMap.put(id, parking);
 
         return parking;
+    }
+
+    public Parking update(String id, Parking parking){
+        Parking parkingSalvo = findById(id);
+        parking.setEntryDate(parkingSalvo.getEntryDate());
+        parking.setExitDate(parkingSalvo.getExitDate());
+
+        parkingMap.replace(id, parking);
+        return parking;
+    }
+
+    public void delete(String id) {
+        Parking parking = findById(id);
+        parkingMap.remove(id);
+    }
+
+    public Parking finalizeParking(String id) {
+        Parking toFinalize = findById(id);
+        toFinalize.setExitDate(LocalDateTime.now());
+
+        return update(id, toFinalize);
     }
 }
