@@ -17,7 +17,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class HelloController {
 
     @GetMapping
-    public String hello(){
-        return "Hello DIO...";
+    public String hello() {
+        return "Hello! I'm running...";
     }
 }

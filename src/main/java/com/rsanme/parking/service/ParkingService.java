@@ -4,7 +4,6 @@ import com.rsanme.parking.exception.ParkingNotFoundException;
 import com.rsanme.parking.model.Parking;
 import com.rsanme.parking.repository.ParkingRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ public class ParkingService {
         this.parkingRepository = parkingRepository;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true)
     public List<Parking> findAll() {
         return parkingRepository.findAll();
     }
@@ -48,14 +47,14 @@ public class ParkingService {
     }
 
     @Transactional
-    public Parking update(String id, Parking parking) {
-        Parking parkingSalvo = findById(id);
-        parkingSalvo.setColor(parking.getColor());
-        parkingSalvo.setState(parking.getState());
-        parkingSalvo.setModel(parking.getModel());
-        parkingSalvo.setLicence(parking.getLicence());
+    public Parking update(String id, Parking parkingUpdate) {
+        Parking parking = findById(id);
+        parking.setColor(parkingUpdate.getColor());
+        parking.setState(parkingUpdate.getState());
+        parking.setModel(parkingUpdate.getModel());
+        parking.setLicence(parkingUpdate.getLicence());
 
-        return parkingRepository.save(parkingSalvo);
+        return parkingRepository.save(parking);
     }
 
     @Transactional
@@ -67,6 +66,9 @@ public class ParkingService {
     @Transactional
     public Parking checkOut(String id) {
         Parking toCheckOut = findById(id);
+        if (toCheckOut.getExitDate() != null) {
+            throw new RuntimeException("Parking already checkout with Id: " + id);
+        }
         toCheckOut.setExitDate(LocalDateTime.now());
         toCheckOut.setBill(ParkingCheckout.getBill(toCheckOut));
 

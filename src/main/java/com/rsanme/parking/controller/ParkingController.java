@@ -33,53 +33,53 @@ public class ParkingController {
     }
 
     @GetMapping
-    @ApiOperation("Find all parkings")
+    @ApiOperation("Find all cars from parking")
     public ResponseEntity<List<ParkingDTO>> findAll() {
         List<Parking> parkingList = parkingService.findAll();
         return ResponseEntity.ok(parkingMapper.toDtoList(parkingList));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Find a car by Id from parking")
     public ResponseEntity<ParkingDTO> findById(@PathVariable String id) {
         Parking response = parkingService.findById(id);
         return ResponseEntity.ok(parkingMapper.toDto(response));
     }
 
     @PostMapping
+    @ApiOperation("Create new car in parking")
     public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO parkingCreateDTO) {
         var parkingCreate = parkingMapper.toModel(parkingCreateDTO);
         var parkingSave = parkingService.create(parkingCreate);
-        var result = parkingMapper.toDto(parkingSave);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(result);
+                .body(parkingMapper.toDto(parkingSave));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation("Update a car from parking")
     public ResponseEntity<ParkingDTO> update(
             @PathVariable String id,
             @RequestBody ParkingCreateDTO parkingCreateDTO) {
 
         var parkingCreate = parkingMapper.toModel(parkingCreateDTO);
         var parkingSave = parkingService.update(id, parkingCreate);
-        var result = parkingMapper.toDto(parkingSave);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(parkingMapper.toDto(parkingSave));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("Delete a car from parking")
     public ResponseEntity<?> delete(@PathVariable String id) {
         parkingService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/checkout/{id}")
-    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id){
-
-        var parkingFinalized = parkingService.checkOut(id);
-        var result = parkingMapper.toDto(parkingFinalized);
-
-        return ResponseEntity.ok(result);
+    @PostMapping("/checkout/{id}")
+    @ApiOperation("Checkout a car from parking")
+    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id) {
+        var parking = parkingService.checkOut(id);
+        return ResponseEntity.ok(parkingMapper.toDto(parking));
     }
 }
