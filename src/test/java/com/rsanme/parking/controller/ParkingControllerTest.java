@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
  * Hora: 16:39
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ParkingControllerTest {
+class ParkingControllerTest extends AbstractContainerBase {
 
     @LocalServerPort
     private int randomPort;
